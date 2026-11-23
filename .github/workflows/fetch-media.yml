@@ -1,0 +1,34 @@
+name: Fetch media
+
+# Copies the video and its poster frame into this repository so the site
+# serves them itself. Run it again by hand if the files ever need replacing.
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - .github/workflows/fetch-media.yml
+
+permissions:
+  contents: write
+
+jobs:
+  fetch:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Download video and poster
+        run: |
+          set -euo pipefail
+          base="https://d2ol7oe51mr4n9.cloudfront.net/user_3MVoD6xTeuQwFuCrW2bWOV51O5F"
+          curl -fL --retry 3 -o maddy.mp4 "$base/eccf3158-0520-46e5-911e-f093b4cf5697.mp4"
+          curl -fL --retry 3 -o poster.jpg "$base/d4a7b220-0fbf-46ed-8288-fefb9819c078.jpg"
+          test "$(stat -c %s maddy.mp4)" -gt 5000000
+          test "$(stat -c %s poster.jpg)" -gt 20000
+      - name: Commit
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add maddy.mp4 poster.jpg
+          git diff --cached --quiet || git commit -m "Add MADDY video and poster"
+          git pull --rebase origin main
+          git push
