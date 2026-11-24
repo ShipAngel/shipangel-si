@@ -20,8 +20,8 @@ jobs:
         run: |
           set -euo pipefail
           base="https://d2ol7oe51mr4n9.cloudfront.net/user_3MVoD6xTeuQwFuCrW2bWOV51O5F"
-          curl -fL --retry 3 -o maddy.mp4 "$base/eccf3158-0520-46e5-911e-f093b4cf5697.mp4"
-          curl -fL --retry 3 -o poster.jpg "$base/d4a7b220-0fbf-46ed-8288-fefb9819c078.jpg"
+          curl -fL --retry 3 -o maddy.mp4 "$base/723677e7-0a9f-4d2c-b277-034570288861.mp4"
+          curl -fL --retry 3 -o poster.jpg "$base/44597626-0213-4f9f-b9e5-6e024c4e9786.jpg"
           test "$(stat -c %s maddy.mp4)" -gt 5000000
           test "$(stat -c %s poster.jpg)" -gt 20000
       - name: Commit
